@@ -6,25 +6,32 @@ but ongoing work strives for a more complete coverage of the standard.
 
 ## How to install it
 
-You can install the package via _composer_:
+You can install the package via _composer_.
+For Laravel 5.5 up to 6.x run: 
 
     $ composer require bitnetic/jsonapi "0.1.*"
+
+For Laravel 7 run:
+
+    $ composer require bitnetic/jsonapi "^2.0"
 
 JsonApi comes with a config file named _config/jsonapi.php_.
 This file is deployed to the central laravel configuration directory using the _vendor:publish_ command:
 
     $ php artisan vendor:publish --provider "Bitnetic\JsonApi\JsonApiServiceProvider"
 
-Next, extend your exception handler with JsonApi standard responses:
+Next, extend your exception handler with JsonApi standard responses.
+Note that this example uses the Laravel 7 signature that uses `Throwable`
+instead of `Exception` that was used in Laravel 5 and 6.
 
     /**
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         return JsonApiExceptionHandler::render($request, $exception)
             ?? parent::render($request, $exception);
